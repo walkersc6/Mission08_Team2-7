@@ -1,8 +1,17 @@
+using Microsoft.EntityFrameworkCore;
+using Mission08_Team2_5.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddDbContext<TaskToCompleteContext>(options =>
+{
+    options.UseSqlite(builder.Configuration["ConnectionStrings:TaskDbConnection"]); // allows DbContext to represent the database
+});
+
+builder.Services.AddScoped<ITasksRespository, EFTasksRepository>(); // gives each HTTPS request its own instance of the repository
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
