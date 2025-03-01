@@ -1,8 +1,171 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<Mission08_Team2_5.Models.Task>
+@using Mission08_Team2_5.Models
+@{
+    ViewData["Title"] = "Quadrants View";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container my-5">
+    <!-- Title and Button Row -->
+    <div class="row align-items-center mb-4">
+        <div class="col-10 text-center">
+            <h1 class="m-0">Stephen Covey's Time Management Matrix</h1>
+        </div>
+        <div class="col-2 text-end">
+            <form asp-controller="Home" asp-action="AddTask" method="get">
+                <button type="submit" class="btn btn-outline-secondary btn-sm"
+                        style="padding: 4px 8px; font-size: 14px; line-height: 1.2; border-radius: 5px;">
+                    Add Task
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Urgent / Not Urgent Labels -->
+    <div class="row mb-3">
+        <div class="col-1"></div> <!-- Empty space for label alignment -->
+        <div class="col-5 text-center">
+            <strong class="fs-5">Urgent</strong>
+        </div>
+        <div class="col-5 text-center">
+            <strong class="fs-5">Not Urgent</strong>
+        </div>
+        <div class="col-1"></div> <!-- Empty space for label alignment -->
+    </div>
+
+    <!-- Quadrants Grid -->
+    <div class="row">
+        <!-- Important Label -->
+        <div class="col-1 d-flex align-items-center justify-content-center" style="writing-mode: vertical-rl; transform: rotate(180deg);">
+            <strong class="fs-5">Important</strong>
+        </div>
+
+        <!-- Quadrant 1 and Quadrant 2 -->
+        <div class="col-11">
+            <div class="row">
+                <!-- Quadrant 1 -->
+                <div class="col-6 border p-3 bg-light">
+                    <h4 class="fw-bold">Quadrant 1</h4>
+                    <p>Crises, Pressing Problems, Projects with Deadlines</p>
+                    <div class="list-group">
+                        @foreach (var task in Model.Where(t => t.Quadrant == 1 && !(t.Completed ?? false)))
+                        {
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>@task.TaskName (Due: @task.DueDate) - Category: @task.Category?.CategoryName</span>
+                                <div>
+                                    <a href="/Home/EditTask/@task.TaskId" class="btn btn-sm btn-warning">Edit</a>
+                                    <a href="/Home/DeleteTask/@task.TaskId" class="btn btn-sm btn-danger">Delete</a>
+                                    <form asp-action="CompleteTask" method="post" class="d-inline">
+                                        <input type="hidden" name="id" value="@task.TaskId" />
+                                        <button type="submit" class="btn btn-sm btn-success">Complete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Quadrant 2 -->
+                <div class="col-6 border p-3 bg-light">
+                    <h4 class="fw-bold">Quadrant 2</h4>
+                    <p>Relationship Building, Planning, Recreation</p>
+                    <div class="list-group">
+                        @foreach (var task in Model.Where(t => t.Quadrant == 2 && !(t.Completed ?? false)))
+                        {
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>@task.TaskName (Due: @task.DueDate) - Category: @task.Category?.CategoryName</span>
+                                <div>
+                                    <a href="/Home/EditTask/@task.TaskId" class="btn btn-sm btn-warning">Edit</a>
+                                    <a href="/Home/DeleteTask/@task.TaskId" class="btn btn-sm btn-danger">Delete</a>
+                                    <form asp-action="CompleteTask" method="post" class="d-inline">
+                                        <input type="hidden" name="id" value="@task.TaskId" />
+                                        <button type="submit" class="btn btn-sm btn-success">Complete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Second Row of Quadrants -->
+    <div class="row mt-3">
+        <!-- Not Important Label -->
+        <div class="col-1 d-flex align-items-center justify-content-center" style="writing-mode: vertical-rl; transform: rotate(180deg);">
+            <strong class="fs-5">Not Important</strong>
+        </div>
+
+        <!-- Quadrant 3 and Quadrant 4 -->
+        <div class="col-11">
+            <div class="row">
+                <!-- Quadrant 3 -->
+                <div class="col-6 border p-3 bg-light">
+                    <h4 class="fw-bold">Quadrant 3</h4>
+                    <p>Interruptions, Some Phone Calls, Some Mail, Some Reports</p>
+                    <div class="list-group">
+                        @foreach (var task in Model.Where(t => t.Quadrant == 3 && !(t.Completed ?? false)))
+                        {
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>@task.TaskName (Due: @task.DueDate) - Category: @task.Category?.CategoryName</span>
+                                <div>
+                                    <a href="/Home/EditTask/@task.TaskId" class="btn btn-sm btn-warning">Edit</a>
+                                    <a href="/Home/DeleteTask/@task.TaskId" class="btn btn-sm btn-danger">Delete</a>
+                                    <form asp-action="CompleteTask" method="post" class="d-inline">
+                                        <input type="hidden" name="id" value="@task.TaskId" />
+                                        <button type="submit" class="btn btn-sm btn-success">Complete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Quadrant 4 -->
+                <div class="col-6 border p-3 bg-light">
+                    <h4 class="fw-bold">Quadrant 4</h4>
+                    <p>Busy Work, Some Phone Calls, Some Mail, Time Wasters</p>
+                    <div class="list-group">
+                        @foreach (var task in Model.Where(t => t.Quadrant == 4 && !(t.Completed ?? false)))
+                        {
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>@task.TaskName (Due: @task.DueDate) - Category: @task.Category?.CategoryName</span>
+                                <div>
+                                    <a href="/Home/EditTask/@task.TaskId" class="btn btn-sm btn-warning">Edit</a>
+                                    <a href="/Home/DeleteTask/@task.TaskId" class="btn btn-sm btn-danger">Delete</a>
+                                    <form asp-action="CompleteTask" method="post" class="d-inline">
+                                        <input type="hidden" name="id" value="@task.TaskId" />
+                                        <button type="submit" class="btn btn-sm btn-success">Complete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Completed Tasks Section -->
+    <div class="row mt-5">
+        <h2 class="text-center mb-4">Completed Tasks</h2>
+        <div class="col-12 border p-3 bg-light">
+            <div class="list-group">
+                @foreach (var task in Model.Where(t => t.Completed ?? false))
+                {
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>@task.TaskName (Due: @task.DueDate) - Category: @task.Category?.CategoryName</span>
+                        <div>
+                            <a href="/Home/EditTask/@task.TaskId" class="btn btn-sm btn-warning">Edit</a>
+                            <a href="/Home/DeleteTask/@task.TaskId" class="btn btn-sm btn-danger">Delete</a>
+                            <form asp-action="UncompleteTask" method="post" class="d-inline">
+                                <input type="hidden" name="id" value="@task.TaskId" />
+                                <button type="submit" class="btn btn-sm btn-secondary">Uncomplete</button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </div>

@@ -24,12 +24,33 @@ namespace Mission08_Team2_5.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("CategoryName")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Home"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "School"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "Work"
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            CategoryName = "Church"
+                        });
                 });
 
             modelBuilder.Entity("Mission08_Team2_5.Models.Task", b =>
@@ -47,7 +68,7 @@ namespace Mission08_Team2_5.Migrations
                     b.Property<string>("DueDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Quandrant")
+                    b.Property<int>("Quadrant")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("TaskName")

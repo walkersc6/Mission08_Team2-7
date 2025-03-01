@@ -10,11 +10,11 @@ namespace Mission08_Team2_5.Models
         public int TaskId { get; set; } //required
         public string TaskName { get; set; } //required
         public string? DueDate { get; set; }
-        public int Quandrant { get; set; } //required
+        public int Quadrant { get; set; } //required
 
         [ForeignKey("CategoryId")]
         public int? CategoryId { get; set; }
-        public Category Category { get; set; }
+        public Category? Category { get; set; }
 
         public bool? Completed { get; set; }
     }

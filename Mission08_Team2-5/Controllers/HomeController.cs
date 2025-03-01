@@ -6,37 +6,40 @@ namespace Mission08_Team2_5.Controllers
 {
     public class HomeController : Controller
     {
+        private ITasksRepository _repo;
 
-        private ITasksRepository _repo; //instantiating the repository as a variable
-        public HomeController(ITasksRepository temp) //constructor
+        public HomeController(ITasksRepository temp)
         {
             _repo = temp;
         }
+
         public IActionResult Index()
         {
-            ViewBag.Tasks = _repo.Tasks.ToList(); //sending a list of tasks in the ViewBag
-            
-            return View();
+            var tasks = _repo.Tasks
+                .Where(t => !(t.Completed ?? false)) // Only show incomplete tasks
+                .ToList();
+
+            return View(tasks); // Automatically uses "Index.cshtml" in the "Home" folder
         }
 
         [HttpGet]
         public IActionResult AddTask()
         {
-            ViewBag._repo.Categories.ToList(); //Sending the list of categories for the dropdown
-            
-            return View(new Task()); // sending blank task to add information to
+            ViewBag.Categories = _repo.Categories.ToList();
+            return View(new Mission08_Team2_5.Models.Task());
         }
 
         [HttpPost]
-        public IActionResult AddTask(Task task)
+        public IActionResult AddTask(Mission08_Team2_5.Models.Task task)
         {
             if (ModelState.IsValid)
             {
-                _repo.AddTask(task); //calling the repository method to add
-                return RedirectToAction("Index");
+                _repo.AddTask(task);
+                return RedirectToAction("Index"); // Redirect to the Index view after adding the task
             }
             else
             {
+                ViewBag.Categories = _repo.Categories.ToList();
                 return View(task);
             }
         }
@@ -44,24 +47,22 @@ namespace Mission08_Team2_5.Controllers
         [HttpGet]
         public IActionResult EditTask(int id)
         {
-            var taskToEdit = _repo.Tasks
-                .Single(x => x.TaskId == id); //finding the task to edit
-            
-            ViewBag._repo.Categories.ToList();
-
+            var taskToEdit = _repo.Tasks.Single(x => x.TaskId == id);
+            ViewBag.Categories = _repo.Categories.ToList();
             return View("AddTask", taskToEdit);
         }
 
         [HttpPost]
-        public IActionResult EditTask(Task task)
+        public IActionResult EditTask(Mission08_Team2_5.Models.Task task)
         {
-            if (ModelState.IsValid) //if statement to ensure the info follows the model structure
+            if (ModelState.IsValid)
             {
-                _repo.UpdateTask(task); //calling the repository method to update the task
+                _repo.UpdateTask(task);
                 return RedirectToAction("Index");
             }
             else
             {
+                ViewBag.Categories = _repo.Categories.ToList();
                 return View(task);
             }
         }
@@ -69,12 +70,33 @@ namespace Mission08_Team2_5.Controllers
         [HttpGet]
         public IActionResult DeleteTask(int id)
         {
-            var taskToDelete = _repo.Tasks //finding task to delete
-                .Single(x => x.TaskId == id);
-            
-            _repo.DeleteTask(taskToDelete); //call the repository method to delete the task
+            var taskToDelete = _repo.Tasks.Single(x => x.TaskId == id);
+            _repo.DeleteTask(taskToDelete);
+            return RedirectToAction("Index");
+        }
+        
+        [HttpPost]
+        public IActionResult CompleteTask(int id)
+        {
+            var taskToComplete = _repo.Tasks.SingleOrDefault(t => t.TaskId == id);
+            if (taskToComplete != null)
+            {
+                taskToComplete.Completed = true;
+                _repo.UpdateTask(taskToComplete);
+            }
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public IActionResult UncompleteTask(int id)
+        {
+            var taskToUncomplete = _repo.Tasks.SingleOrDefault(t => t.TaskId == id);
+            if (taskToUncomplete != null)
+            {
+                taskToUncomplete.Completed = false;
+                _repo.UpdateTask(taskToUncomplete);
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
