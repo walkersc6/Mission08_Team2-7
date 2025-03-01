@@ -7,6 +7,7 @@
     <h1 class="text-center mb-4">Add a New Task</h1>
 
     <form asp-action="AddTask" method="post">
+        <input type="hidden" asp-for="TaskId"/>
         <div class="mb-3">
             <label asp-for="TaskName" class="form-label">Task Name</label>
             <input type="text" class="form-control" asp-for="TaskName" placeholder="Enter task name" required>
@@ -18,8 +19,8 @@
         </div>
 
         <div class="mb-3">
-            <label for="Quadrant" class="form-label">Quadrant</label>
-            <select class="form-select" id="Quadrant" name="Quadrant" required>
+            <label asp-for="Quadrant" class="form-label">Quadrant</label>
+            <select class="form-select" asp-for="Quadrant" required>
                 <option value="1">Quadrant 1 - Important / Urgent</option>
                 <option value="2">Quadrant 2 - Important / Not Urgent</option>
                 <option value="3">Quadrant 3 - Not Important / Urgent</option>
@@ -28,8 +29,8 @@
         </div>
 
         <div class="mb-3">
-            <label for="CategoryId" class="form-label">Category</label>
-            <select class="form-select" id="CategoryId" name="CategoryId" required>
+            <label asp-for="CategoryId" class="form-label">Category</label>
+            <select class="form-select" asp-for="CategoryId" required>
                 <option value="">Select a Category</option>
                 @foreach (var category in ViewBag.Categories as IEnumerable<Mission08_Team2_5.Models.Category>)
                 {
