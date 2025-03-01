@@ -19,11 +19,13 @@
             <input type="text" class="form-control" asp-for="TaskName" placeholder="Enter task name" required>
         </div>
 
+        @* Due Date *@
         <div class="mb-3">
             <label asp-for="DueDate" class="form-label">Due Date</label>
             <input type="date" class="form-control" asp-for="DueDate">
         </div>
 
+        @* Quadrant *@
         <div class="mb-3">
             <label asp-for="Quadrant" class="form-label">Quadrant</label>
             <select class="form-select" asp-for="Quadrant" required>
@@ -34,6 +36,7 @@
             </select>
         </div>
 
+        @* Category *@
         <div class="mb-3">
             <label asp-for="CategoryId" class="form-label">Category</label>
             <select class="form-select" asp-for="CategoryId" required>
@@ -45,6 +48,7 @@
             </select>
         </div>
 
+        
         <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="Completed" name="Completed">
             <label class="form-check-label" for="Completed">Completed</label>
