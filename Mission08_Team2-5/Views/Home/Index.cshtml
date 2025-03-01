@@ -7,7 +7,8 @@
 <div class="container my-5">
     <!-- Title and Button Row -->
     <div class="row align-items-center mb-4">
-        <div class="col-10 text-center">
+        <div class="col-2"></div>
+        <div class="col-8 text-center">
             <h1 class="m-0">Stephen Covey's Time Management Matrix</h1>
         </div>
         <div class="col-2 text-end">
@@ -158,9 +159,9 @@
                         <div>
                             <a href="/Home/EditTask/@task.TaskId" class="btn btn-sm btn-warning">Edit</a>
                             <a href="/Home/DeleteTask/@task.TaskId" class="btn btn-sm btn-danger">Delete</a>
-                            <form asp-action="UncompleteTask" method="post" class="d-inline">
+                            <form asp-action="IncompleteTask" method="post" class="d-inline">
                                 <input type="hidden" name="id" value="@task.TaskId" />
-                                <button type="submit" class="btn btn-sm btn-secondary">Uncomplete</button>
+                                <button type="submit" class="btn btn-sm btn-secondary">Incomplete</button>
                             </form>
                         </div>
                     </div>
