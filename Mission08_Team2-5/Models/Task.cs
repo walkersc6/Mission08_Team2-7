@@ -16,6 +16,6 @@ namespace Mission08_Team2_5.Models
         public int? CategoryId { get; set; }
         public Category? Category { get; set; }
 
-        public bool? Completed { get; set; }
+        public bool Completed { get; set; }
     }
 }

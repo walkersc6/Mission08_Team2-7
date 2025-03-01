@@ -17,7 +17,7 @@ namespace Mission08_Team2_5.Controllers
         {
             var tasks = _repo.Tasks.ToList();
 
-            // Debugging: Output the completed status of all tasks
+            // Debugging output for tasks
             foreach (var task in tasks)
             {
                 Console.WriteLine($"Task: {task.TaskName}, Completed: {task.Completed}");
@@ -25,6 +25,7 @@ namespace Mission08_Team2_5.Controllers
 
             return View(tasks);
         }
+
 
         [HttpGet]
         public IActionResult AddTask()
@@ -36,17 +37,20 @@ namespace Mission08_Team2_5.Controllers
         [HttpPost]
         public IActionResult AddTask(Mission08_Team2_5.Models.Task task)
         {
+            Console.WriteLine($"Task: {task.TaskName}, Completed: {task.Completed}");
+
+            task.Completed = task.Completed;
+
             if (ModelState.IsValid)
             {
                 _repo.AddTask(task);
-                return RedirectToAction("Index"); // Redirect to the Index view after adding the task
+                return RedirectToAction("Index");
             }
-            else
-            {
-                ViewBag.Categories = _repo.Categories.ToList();
-                return View(task);
-            }
+    
+            ViewBag.Categories = _repo.Categories.ToList();
+            return View(task);
         }
+
 
         [HttpGet]
         public IActionResult EditTask(int id)
@@ -91,11 +95,17 @@ namespace Mission08_Team2_5.Controllers
             var taskToComplete = _repo.Tasks.SingleOrDefault(t => t.TaskId == id);
             if (taskToComplete != null)
             {
+                Console.WriteLine($"Before Update - Task: {taskToComplete.TaskName}, Completed: {taskToComplete.Completed}");
+
                 taskToComplete.Completed = true;
                 _repo.UpdateTask(taskToComplete);
+
+                Console.WriteLine($"After Update - Task: {taskToComplete.TaskName}, Completed: {taskToComplete.Completed}");
             }
             return RedirectToAction("Index");
         }
+
+
 
         [HttpPost]
         public IActionResult IncompleteTask(int id)
