@@ -8,13 +8,13 @@
 
     <form asp-action="AddTask" method="post">
         <div class="mb-3">
-            <label for="TaskName" class="form-label">Task Name</label>
-            <input type="text" class="form-control" id="TaskName" name="TaskName" placeholder="Enter task name" required>
+            <label asp-for="TaskName" class="form-label">Task Name</label>
+            <input type="text" class="form-control" asp-for="TaskName" placeholder="Enter task name" required>
         </div>
 
         <div class="mb-3">
-            <label for="DueDate" class="form-label">Due Date</label>
-            <input type="date" class="form-control" id="DueDate" name="DueDate">
+            <label asp-for="DueDate" class="form-label">Due Date</label>
+            <input type="date" class="form-control" asp-for="DueDate">
         </div>
 
         <div class="mb-3">
