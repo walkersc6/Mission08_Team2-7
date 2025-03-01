@@ -26,7 +26,7 @@ namespace Mission08_Team2_5.Controllers
             return View(tasks);
         }
 
-
+        // this is the AddTask view 
         [HttpGet]
         public IActionResult AddTask()
         {
@@ -51,14 +51,15 @@ namespace Mission08_Team2_5.Controllers
             return View(task);
         }
 
-
+        // this is the EditTask view 
         [HttpGet]
         public IActionResult EditTask(int id)
         {
             var taskToEdit = _repo.Tasks.Single(x => x.TaskId == id);
             if (taskToEdit == null)
             {
-                return NotFound(); // Return a 404 if the task doesn't exist
+                // Return a 404 if the task doesn't exist
+                return NotFound(); 
             }
     
             ViewBag.Categories = _repo.Categories.ToList();
@@ -77,10 +78,13 @@ namespace Mission08_Team2_5.Controllers
             else
             {
                 ViewBag.Categories = _repo.Categories.ToList();
-                return View("AddTask", task); // Explicitly return the "AddTask" view
+                // Explicitly return the "AddTask" view
+                return View("AddTask", task); 
             }
         }
 
+        
+        // this is the DeleteTask view 
         [HttpGet]
         public IActionResult DeleteTask(int id)
         {
@@ -89,6 +93,8 @@ namespace Mission08_Team2_5.Controllers
             return RedirectToAction("Index");
         }
         
+        
+        // this is the CompleteTask view 
         [HttpPost]
         public IActionResult CompleteTask(int id)
         {
@@ -106,7 +112,7 @@ namespace Mission08_Team2_5.Controllers
         }
 
 
-
+        // this is the IncompleteTask view 
         [HttpPost]
         public IActionResult IncompleteTask(int id)
         {
